@@ -37,7 +37,7 @@ namespace StealthBomber
             {
                 transform.Translate(Vector3.up * (ascendSpeed * Time.fixedDeltaTime));
                 
-                if (transform.position.y > 5000f && !_switchToFollowCamera)
+                if (transform.position.y > endingAltitude - 2000f && !_switchToFollowCamera)
                 {
                     cameraManager.SwitchToFollowCamera();
                     _switchToFollowCamera = true;

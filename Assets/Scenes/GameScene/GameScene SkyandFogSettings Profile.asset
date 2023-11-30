@@ -180,10 +180,10 @@ MonoBehaviour:
     m_Value: {x: 0, y: 0}
   bottomAltitude:
     m_OverrideState: 1
-    m_Value: 0.01
+    m_Value: 4000
   altitudeRange:
     m_OverrideState: 1
-    m_Value: 9000
+    m_Value: 11000
   fadeInMode:
     m_OverrideState: 1
     m_Value: 0
@@ -195,17 +195,17 @@ MonoBehaviour:
     m_Value: 0
   numPrimarySteps:
     m_OverrideState: 1
-    m_Value: 64
+    m_Value: 400
   numLightSteps:
     m_OverrideState: 1
-    m_Value: 6
+    m_Value: 1
   cloudMap:
     m_OverrideState: 1
-    m_Value: {fileID: 0}
+    m_Value: {fileID: 2800000, guid: 82c448e33d0510dd490a9af63ba9bcd5, type: 3}
     dimension: 2
   cloudLut:
     m_OverrideState: 1
-    m_Value: {fileID: 0}
+    m_Value: {fileID: 2800000, guid: 82c448e33d0510dd490a9af63ba9bcd5, type: 3}
     dimension: 2
   cloudControl:
     m_OverrideState: 1
@@ -215,32 +215,32 @@ MonoBehaviour:
     m_Value: 4
   cumulusMap:
     m_OverrideState: 1
-    m_Value: {fileID: 0}
+    m_Value: {fileID: 2800000, guid: 82c448e33d0510dd490a9af63ba9bcd5, type: 3}
     dimension: 2
   cumulusMapMultiplier:
     m_OverrideState: 1
     m_Value: 1
   altoStratusMap:
     m_OverrideState: 1
-    m_Value: {fileID: 0}
+    m_Value: {fileID: 2800000, guid: 82c448e33d0510dd490a9af63ba9bcd5, type: 3}
     dimension: 2
   altoStratusMapMultiplier:
     m_OverrideState: 1
     m_Value: 1
   cumulonimbusMap:
     m_OverrideState: 1
-    m_Value: {fileID: 0}
+    m_Value: {fileID: 2800000, guid: 82c448e33d0510dd490a9af63ba9bcd5, type: 3}
     dimension: 2
   cumulonimbusMapMultiplier:
     m_OverrideState: 1
     m_Value: 1
   rainMap:
     m_OverrideState: 1
-    m_Value: {fileID: 0}
+    m_Value: {fileID: 2800000, guid: 82c448e33d0510dd490a9af63ba9bcd5, type: 3}
     dimension: 2
   cloudMapResolution:
     m_OverrideState: 1
-    m_Value: 64
+    m_Value: 256
   densityCurve:
     m_OverrideState: 1
     m_Value:
@@ -248,10 +248,10 @@ MonoBehaviour:
       m_Curve:
       - serializedVersion: 3
         time: 0
-        value: 0
-        inSlope: 2
-        outSlope: 2
-        tangentMode: 0
+        value: 1
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 34
         weightedMode: 0
         inWeight: 0
         outWeight: 0
@@ -260,7 +260,7 @@ MonoBehaviour:
         value: 1
         inSlope: 0
         outSlope: 0
-        tangentMode: 0
+        tangentMode: 34
         weightedMode: 0
         inWeight: 0
         outWeight: 0
@@ -275,8 +275,8 @@ MonoBehaviour:
       - serializedVersion: 3
         time: 0
         value: 0
-        inSlope: 2
-        outSlope: 2
+        inSlope: 0
+        outSlope: 0
         tangentMode: 0
         weightedMode: 0
         inWeight: 0
@@ -284,8 +284,8 @@ MonoBehaviour:
       - serializedVersion: 3
         time: 1
         value: 1
-        inSlope: 0
-        outSlope: 0
+        inSlope: 2
+        outSlope: 2
         tangentMode: 0
         weightedMode: 0
         inWeight: 0
@@ -301,15 +301,24 @@ MonoBehaviour:
       - serializedVersion: 3
         time: 0
         value: 0
-        inSlope: 2
-        outSlope: 2
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: 0
+        outWeight: 0
+      - serializedVersion: 3
+        time: 0.25
+        value: 0.4
+        inSlope: 0
+        outSlope: 0
         tangentMode: 0
         weightedMode: 0
         inWeight: 0
         outWeight: 0
       - serializedVersion: 3
         time: 1
-        value: 1
+        value: 0
         inSlope: 0
         outSlope: 0
         tangentMode: 0
@@ -330,22 +339,22 @@ MonoBehaviour:
     m_Value: 0.5
   densityMultiplier:
     m_OverrideState: 1
-    m_Value: 0.35
+    m_Value: 0.5
   shapeFactor:
     m_OverrideState: 1
     m_Value: 1
   shapeScale:
     m_OverrideState: 1
-    m_Value: 5
+    m_Value: 6.54
   shapeOffset:
     m_OverrideState: 1
     m_Value: {x: 0, y: 0, z: 0}
   erosionFactor:
     m_OverrideState: 1
-    m_Value: 0
+    m_Value: 0.404
   erosionScale:
     m_OverrideState: 1
-    m_Value: 10
+    m_Value: 1
   erosionNoiseType:
     m_OverrideState: 1
     m_Value: 1
@@ -354,22 +363,22 @@ MonoBehaviour:
     m_Value: 1
   sunLightDimmer:
     m_OverrideState: 1
-    m_Value: 1
+    m_Value: 0.813
   erosionOcclusion:
     m_OverrideState: 0
     m_Value: 0.1
   globalWindSpeed:
-    m_OverrideState: 0
+    m_OverrideState: 1
     m_Value:
-      mode: 1
-      customValue: 100
+      mode: 0
+      customValue: 10000
       additiveValue: 0
       multiplyValue: 1
   orientation:
-    m_OverrideState: 0
+    m_OverrideState: 1
     m_Value:
-      mode: 1
-      customValue: 0
+      mode: 0
+      customValue: 270
       additiveValue: 0
       multiplyValue: 1
   altitudeDistortion:
@@ -546,10 +555,10 @@ MonoBehaviour:
     m_OverrideState: 1
     m_Value: 1
   windOrientation:
-    m_OverrideState: 1
+    m_OverrideState: 0
     m_Value: 270
   windSpeed:
-    m_OverrideState: 1
+    m_OverrideState: 0
     m_Value: 10000
   fogType:
     m_OverrideState: 1
