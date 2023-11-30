@@ -368,14 +368,14 @@ MonoBehaviour:
     m_OverrideState: 0
     m_Value: 0.1
   globalWindSpeed:
-    m_OverrideState: 1
+    m_OverrideState: 0
     m_Value:
       mode: 0
-      customValue: 10000
+      customValue: 5
       additiveValue: 0
       multiplyValue: 1
   orientation:
-    m_OverrideState: 1
+    m_OverrideState: 0
     m_Value:
       mode: 0
       customValue: 270
@@ -555,11 +555,11 @@ MonoBehaviour:
     m_OverrideState: 1
     m_Value: 1
   windOrientation:
-    m_OverrideState: 0
+    m_OverrideState: 1
     m_Value: 270
   windSpeed:
-    m_OverrideState: 0
-    m_Value: 10000
+    m_OverrideState: 1
+    m_Value: 4
   fogType:
     m_OverrideState: 1
     m_Value: 0

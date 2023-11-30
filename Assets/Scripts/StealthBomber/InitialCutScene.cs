@@ -15,7 +15,7 @@ namespace StealthBomber
         public float endingAltitude = 8900f;
 
         // The speed at which the stealth bomber will ascend
-        public float ascendSpeed = 10000f;
+        public float ascendSpeed = 200f;
 
         // Reference to the camera manager
         public CameraManager cameraManager;
@@ -37,7 +37,7 @@ namespace StealthBomber
             {
                 transform.Translate(Vector3.up * (ascendSpeed * Time.fixedDeltaTime));
                 
-                if (transform.position.y > endingAltitude - 2000f && !_switchToFollowCamera)
+                if (transform.position.y > endingAltitude - 3000f && !_switchToFollowCamera)
                 {
                     cameraManager.SwitchToFollowCamera();
                     _switchToFollowCamera = true;
