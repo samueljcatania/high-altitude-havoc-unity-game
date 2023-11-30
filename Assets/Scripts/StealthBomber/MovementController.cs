@@ -59,7 +59,7 @@ public class MovementController : MonoBehaviour
         // Get keyboard inputs
         rollInput = Input.GetAxis("Horizontal"); // A and D keys for roll
         pitchInput = Input.GetAxis("Vertical"); // W and S keys for pitch
-        yawInput = Input.GetAxis("Yaw"); // Q and E keys for yaw
+        //yawInput = Input.GetAxis("Yaw"); // Q and E keys for yaw
         thrustInput = Input.GetKeyDown(KeyCode.LeftShift); // Up and Down Arrow keys for thrust
 
         // Apply rotations to the plane

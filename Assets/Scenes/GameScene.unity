@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 10517.757, g: 7403.8887, b: 6640.019, a: 1}
+  m_IndirectSpecularColor: {r: 3723.6895, g: 3396.5015, b: 4138.029, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -156,7 +156,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   fadeImage: {fileID: 1094268587}
-  fadeDuration: 15
+  fadeDuration: 10
 --- !u!114 &125564604
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -214,7 +214,7 @@ Canvas:
   m_OverrideSorting: 0
   m_OverridePixelPerfect: 0
   m_SortingBucketNormalizedSize: 0
-  m_VertexColorAlwaysGammaSpace: 0
+  m_VertexColorAlwaysGammaSpace: 1
   m_AdditionalShaderChannelsFlag: 0
   m_UpdateRectTransformForStandalone: 0
   m_SortingLayerID: 0
@@ -954,7 +954,6 @@ GameObject:
   m_Component:
   - component: {fileID: 1148133297}
   - component: {fileID: 1148133299}
-  - component: {fileID: 1148133298}
   m_Layer: 0
   m_Name: InternalStealthBomberVirtualCamera
   m_TagString: Untagged
@@ -978,28 +977,6 @@ Transform:
   - {fileID: 1673396915}
   m_Father: {fileID: 5072170040175510576}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1148133298
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1148133296}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0c11265b855408d42af33d62691f5194, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_ChannelMask: 1
-  m_Gain: 1
-  m_Use2DDistance: 0
-  m_UseLocalSpace: 1
-  m_ReactionSettings:
-    m_SecondaryNoise: {fileID: 11400000, guid: 69ce8388f6785dd4c8c39915efece2f4, type: 2}
-    m_AmplitudeGain: 1
-    m_FrequencyGain: 1
-    m_Duration: 1
-    m_NoiseOffsets: {x: 0, y: 0, z: 0}
 --- !u!114 &1148133299
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1659,7 +1636,6 @@ GameObject:
   m_Component:
   - component: {fileID: 1761179388}
   - component: {fileID: 1761179390}
-  - component: {fileID: 1761179391}
   m_Layer: 0
   m_Name: StealthBomberVirtualCamera
   m_TagString: Untagged
@@ -1675,7 +1651,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1761179387}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.13870122, y: 0.000000017040069, z: -0.0000000023865456, w: 0.99033433}
+  m_LocalRotation: {x: 0.13870122, y: -0.000000017040069, z: 0.0000000023865456, w: 0.99033433}
   m_LocalPosition: {x: 0, y: 8010, z: -35}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -1729,28 +1705,6 @@ MonoBehaviour:
         m_Calls: []
   m_LegacyBlendHint: 0
   m_ComponentOwner: {fileID: 1615212862}
---- !u!114 &1761179391
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1761179387}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0c11265b855408d42af33d62691f5194, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_ChannelMask: 1
-  m_Gain: 1
-  m_Use2DDistance: 0
-  m_UseLocalSpace: 1
-  m_ReactionSettings:
-    m_SecondaryNoise: {fileID: 11400000, guid: 69ce8388f6785dd4c8c39915efece2f4, type: 2}
-    m_AmplitudeGain: 1
-    m_FrequencyGain: 1
-    m_Duration: 1
-    m_NoiseOffsets: {x: 0, y: 0, z: 0}
 --- !u!1 &1880635967
 GameObject:
   m_ObjectHideFlags: 0
@@ -1891,6 +1845,21 @@ PrefabInstance:
       propertyPath: m_LocalRotation.z
       value: -0.33207154
       objectReference: {fileID: 0}
+    - target: {fileID: 1496119735738022114, guid: ae2a06f1a344096dca521e8a9b381fef,
+        type: 3}
+      propertyPath: m_LocalScale.x
+      value: 0.3
+      objectReference: {fileID: 0}
+    - target: {fileID: 1496119735738022114, guid: ae2a06f1a344096dca521e8a9b381fef,
+        type: 3}
+      propertyPath: m_LocalScale.y
+      value: 0.13076924
+      objectReference: {fileID: 0}
+    - target: {fileID: 1496119735738022114, guid: ae2a06f1a344096dca521e8a9b381fef,
+        type: 3}
+      propertyPath: m_LocalScale.z
+      value: 0.27692312
+      objectReference: {fileID: 0}
     - target: {fileID: 1618196006752165404, guid: ae2a06f1a344096dca521e8a9b381fef,
         type: 3}
       propertyPath: m_Priority
@@ -1903,7 +1872,17 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1666626020100651910, guid: ae2a06f1a344096dca521e8a9b381fef,
         type: 3}
+      propertyPath: m_Layer
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1666626020100651910, guid: ae2a06f1a344096dca521e8a9b381fef,
+        type: 3}
       propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1669942509548580160, guid: ae2a06f1a344096dca521e8a9b381fef,
+        type: 3}
+      propertyPath: m_Layer
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2977656053587096323, guid: ae2a06f1a344096dca521e8a9b381fef,
@@ -1926,6 +1905,11 @@ PrefabInstance:
       propertyPath: m_Materials.Array.data[4]
       value: 
       objectReference: {fileID: 2100000, guid: bea81e3153d51dfd5b99bbb48bad92a9, type: 2}
+    - target: {fileID: 3065766503411716932, guid: ae2a06f1a344096dca521e8a9b381fef,
+        type: 3}
+      propertyPath: InitialModule.startLifetime.scalar
+      value: 2
+      objectReference: {fileID: 0}
     - target: {fileID: 3117946907314842574, guid: ae2a06f1a344096dca521e8a9b381fef,
         type: 3}
       propertyPath: m_Layer
@@ -1935,6 +1919,21 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Layer
       value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 3188065474626418523, guid: ae2a06f1a344096dca521e8a9b381fef,
+        type: 3}
+      propertyPath: m_Layer
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3188065474626418523, guid: ae2a06f1a344096dca521e8a9b381fef,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4336633066484542162, guid: ae2a06f1a344096dca521e8a9b381fef,
+        type: 3}
+      propertyPath: m_Layer
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5003591091982902458, guid: ae2a06f1a344096dca521e8a9b381fef,
         type: 3}
@@ -1975,6 +1974,26 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalPosition.z
       value: 24.01
+      objectReference: {fileID: 0}
+    - target: {fileID: 5797820065020588318, guid: ae2a06f1a344096dca521e8a9b381fef,
+        type: 3}
+      propertyPath: m_LocalScale.x
+      value: 0.3
+      objectReference: {fileID: 0}
+    - target: {fileID: 5797820065020588318, guid: ae2a06f1a344096dca521e8a9b381fef,
+        type: 3}
+      propertyPath: m_LocalScale.y
+      value: 0.13076924
+      objectReference: {fileID: 0}
+    - target: {fileID: 5797820065020588318, guid: ae2a06f1a344096dca521e8a9b381fef,
+        type: 3}
+      propertyPath: m_LocalScale.z
+      value: 0.27692312
+      objectReference: {fileID: 0}
+    - target: {fileID: 6024239077052982460, guid: ae2a06f1a344096dca521e8a9b381fef,
+        type: 3}
+      propertyPath: m_Layer
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6029429267071873646, guid: ae2a06f1a344096dca521e8a9b381fef,
         type: 3}
@@ -2069,17 +2088,57 @@ PrefabInstance:
     - target: {fileID: 7498960800931660263, guid: ae2a06f1a344096dca521e8a9b381fef,
         type: 3}
       propertyPath: m_Name
-      value: StealthBomber
+      value: StealthBomber (Flying)
       objectReference: {fileID: 0}
     - target: {fileID: 7498960800931660263, guid: ae2a06f1a344096dca521e8a9b381fef,
         type: 3}
       propertyPath: m_Layer
-      value: 6
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7498960800931660263, guid: ae2a06f1a344096dca521e8a9b381fef,
         type: 3}
       propertyPath: m_IsActive
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7498960800933778569, guid: ae2a06f1a344096dca521e8a9b381fef,
+        type: 3}
+      propertyPath: m_CastShadows
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7498960800933778569, guid: ae2a06f1a344096dca521e8a9b381fef,
+        type: 3}
+      propertyPath: m_MotionVectors
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7498960800933778569, guid: ae2a06f1a344096dca521e8a9b381fef,
+        type: 3}
+      propertyPath: m_DynamicOccludee
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7498960800933778569, guid: ae2a06f1a344096dca521e8a9b381fef,
+        type: 3}
+      propertyPath: m_StaticShadowCaster
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7532550687800557223, guid: ae2a06f1a344096dca521e8a9b381fef,
+        type: 3}
+      propertyPath: m_Layer
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7532550687800557223, guid: ae2a06f1a344096dca521e8a9b381fef,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7943641918130821816, guid: ae2a06f1a344096dca521e8a9b381fef,
+        type: 3}
+      propertyPath: InitialModule.startLifetime.scalar
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 8689808269540369198, guid: ae2a06f1a344096dca521e8a9b381fef,
+        type: 3}
+      propertyPath: m_Layer
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8696124224229094908, guid: ae2a06f1a344096dca521e8a9b381fef,
         type: 3}
@@ -2095,6 +2154,9 @@ PrefabInstance:
     m_RemovedGameObjects:
     - {fileID: 2700655693087368812, guid: ae2a06f1a344096dca521e8a9b381fef, type: 3}
     - {fileID: 6170395521416437461, guid: ae2a06f1a344096dca521e8a9b381fef, type: 3}
+    - {fileID: 4874362518997159935, guid: ae2a06f1a344096dca521e8a9b381fef, type: 3}
+    - {fileID: 8761332502924935239, guid: ae2a06f1a344096dca521e8a9b381fef, type: 3}
+    - {fileID: 1022664039874916227, guid: ae2a06f1a344096dca521e8a9b381fef, type: 3}
     m_AddedGameObjects:
     - targetCorrespondingSourceObject: {fileID: 7498960800931433221, guid: ae2a06f1a344096dca521e8a9b381fef,
         type: 3}
