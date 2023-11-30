@@ -1,5 +1,6 @@
 # Jetbrains Rider
 .idea/
+*.blob
 
 # The following was retreived from https://github.com/github/gitignore/blob/main/Unity.gitignore
 #
