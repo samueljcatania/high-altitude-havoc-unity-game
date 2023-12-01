@@ -33,6 +33,10 @@ namespace StealthBomber
             _engineAudioSource.volume = 0.1f;
             _intenseRadioChatterAudioSource.volume = 0.5f;
             
+            // Set the audio sources to loop
+            _engineAudioSource.loop = true;
+            _intenseRadioChatterAudioSource.loop = true;
+            
             // Play the sounds
             _engineAudioSource.Play();
             _intenseRadioChatterAudioSource.Play();

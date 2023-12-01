@@ -24,7 +24,8 @@ namespace StealthBomber
 
         private float currentSpinSpeed = 0.0f;
         private bool isFiring = false;
-        private bool hasFired = false;
+
+        private bool isHoldingFire = false;
 
         // The maximum and minimum angles that the gun can aim at
         private const float MaxYAngle = 30f;
@@ -85,7 +86,7 @@ namespace StealthBomber
 
             _barrelSpinUpAudioSource.volume = 0.1f;
             _firingInitialAudioSource.volume = 0.1f;
-            _firingLoopAudioSource.volume = 0.1f;
+            _firingLoopAudioSource.volume = 0.0f;
             _barrelSpinningLoopAudioSource.volume = 0.1f;
             _firingSpinDownAudioSource.volume = 0.1f;
             _barrelSpinDownAudioSource.volume = 0.1f;
@@ -125,15 +126,16 @@ namespace StealthBomber
             transform.localEulerAngles = new Vector3(currentRotation.x, currentRotation.y, 0);
         }
 
-        void HandleSpin()
+        private void HandleSpin()
         {
             if (Input.GetMouseButton(0))
             {
-                if (!isFiring && !_barrelSpinUpAudioSource.isPlaying)
+                if (!isFiring && !_barrelSpinUpAudioSource.isPlaying && !isHoldingFire)
                 {
                     // Get the percentage of the current spin speed to the max spin speed and use that to set the playback position
-                    _barrelSpinUpAudioSource.time = Mathf.Clamp01(1.0f - currentSpinSpeed / maxSpinSpeed) *
-                                                    _barrelSpinUpAudioSource.clip.length;
+                    var time = Mathf.Clamp01(1.0f - currentSpinSpeed / maxSpinSpeed) *
+                        _barrelSpinUpAudioSource.clip.length - 0.01f;
+                    _barrelSpinUpAudioSource.time = time;
                     _barrelSpinUpAudioSource.Play();
 
                     if (_barrelSpinDownAudioSource.isPlaying)
@@ -156,11 +158,14 @@ namespace StealthBomber
 
                     if (!_barrelSpinningLoopAudioSource.isPlaying)
                     {
+                        Debug.Log("Playing barrel spinning loop");
                         _barrelSpinningLoopAudioSource.Play();
                     }
 
                     isFiring = true;
                 }
+
+                isHoldingFire = true;
             }
             else
             {
@@ -197,15 +202,17 @@ namespace StealthBomber
                     }
 
                     if (!_barrelSpinDownAudioSource.isPlaying && !_firingSpinDownAudioSource.isPlaying &&
-                        currentSpinSpeed > 0.0f)
+                        currentSpinSpeed > 0.0f && isHoldingFire)
                     {
                         // Get the percentage of the current spin speed to the max spin speed and use that to set the playback position
-                        _barrelSpinDownAudioSource.time = Mathf.Clamp01(1.0f - currentSpinSpeed / maxSpinSpeed) *
-                                                          _barrelSpinDownAudioSource.clip.length;
+                        var time = Mathf.Clamp01(1.0f - currentSpinSpeed / maxSpinSpeed) *
+                            _barrelSpinDownAudioSource.clip.length - 0.01f;
+                        _barrelSpinDownAudioSource.time = time;
                         _barrelSpinDownAudioSource.Play();
                     }
                 }
 
+                isHoldingFire = false;
                 isFiring = false;
             }
 

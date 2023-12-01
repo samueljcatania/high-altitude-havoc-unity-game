@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 4074.4858, g: 3899.15, b: 5338.2876, a: 1}
+  m_IndirectSpecularColor: {r: 3896.5117, g: 3520.5273, b: 3992.776, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -587,8 +587,8 @@ MonoBehaviour:
   aimSmoothing: 10
   barrelSpinUpSound: {fileID: 8300000, guid: 5738ecedcc3b36f7a8e14229e6990804, type: 3}
   firingInitialSound: {fileID: 8300000, guid: 4e5dedf6ccf0572bd9519062edf80adc, type: 3}
-  firingLoopSound: {fileID: 8300000, guid: b721844515c795e4abd229029488589e, type: 3}
-  barrelSpinningLoopSound: {fileID: 8300000, guid: 8ec6ff5a76e53fb77a40a147a56c1dea,
+  firingLoopSound: {fileID: 8300000, guid: 014d553173b92c4d5b4d3a3d5a598424, type: 3}
+  barrelSpinningLoopSound: {fileID: 8300000, guid: c2d460d7ab63333baaa4a0b76620427e,
     type: 3}
   firingSpinDownSound: {fileID: 8300000, guid: 8c48a4df4c4d4787d8bd839c365ca3c0, type: 3}
   barrelSpinDownSound: {fileID: 8300000, guid: 4476710f74f16f112a81b65b3cbf8a59, type: 3}
@@ -1189,7 +1189,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1148133296}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.13870122, y: -0.000000017040069, z: 0.0000000023865456, w: 0.99033433}
+  m_LocalRotation: {x: 0.13870122, y: 0.000000017040069, z: -0.0000000023865456, w: 0.99033433}
   m_LocalPosition: {x: 0, y: 10, z: -35}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -1630,7 +1630,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1523984497}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.33641076, y: -0.43156317, z: 0.17749082, w: 0.81797194}
+  m_LocalRotation: {x: 0.33641076, y: -0.4315632, z: 0.17749083, w: 0.81797194}
   m_LocalPosition: {x: 96.8, y: 116.1001, z: -66.2}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -2607,10 +2607,6 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 7498960800931660263, guid: ae2a06f1a344096dca521e8a9b381fef,
         type: 3}
       insertIndex: -1
-      addedObject: {fileID: 5072170040175510584}
-    - targetCorrespondingSourceObject: {fileID: 7498960800931660263, guid: ae2a06f1a344096dca521e8a9b381fef,
-        type: 3}
-      insertIndex: -1
       addedObject: {fileID: 5072170040175510585}
   m_SourcePrefab: {fileID: 100100000, guid: ae2a06f1a344096dca521e8a9b381fef, type: 3}
 --- !u!4 &5072170040175510576 stripped
@@ -2722,29 +2718,6 @@ MeshCollider:
   m_Convex: 1
   m_CookingOptions: 30
   m_Mesh: {fileID: 4300000, guid: 6d4cfbc0686ed48c3bfca40a3f0a790d, type: 3}
---- !u!164 &5072170040175510584
-AudioReverbFilter:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1014661916}
-  m_Enabled: 1
-  m_DryLevel: 0
-  m_Room: -10000
-  m_RoomHF: -10000
-  m_DecayTime: 1
-  m_DecayHFRatio: 1
-  m_ReflectionsLevel: -2602
-  m_ReverbLevel: 200
-  m_ReverbDelay: 0.011
-  m_Diffusion: 0
-  m_Density: 0
-  m_HFReference: 5000
-  m_RoomLF: 0
-  m_LFReference: 250
-  m_ReflectionsDelay: 0
-  m_ReverbPreset: 0
 --- !u!114 &5072170040175510585
 MonoBehaviour:
   m_ObjectHideFlags: 0
