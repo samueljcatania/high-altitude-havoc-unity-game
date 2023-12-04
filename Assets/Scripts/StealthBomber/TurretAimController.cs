@@ -4,31 +4,26 @@ namespace StealthBomber
 {
     public class TurretAimController : MonoBehaviour
     {
-        public Camera gameCamera;
         public float sensitivity = 100.0f;
         public float aimSmoothing = 10.0f;
 
         public AudioClip barrelSpinUpSound;
         public AudioClip firingInitialSound;
         public AudioClip firingLoopSound;
-        public AudioClip barrelSpinningLoopSound;
         public AudioClip firingSpinDownSound;
         public AudioClip barrelSpinDownSound;
 
         private AudioSource _barrelSpinUpAudioSource;
         private AudioSource _firingInitialAudioSource;
         private AudioSource _firingLoopAudioSource;
-        private AudioSource _barrelSpinningLoopAudioSource;
         private AudioSource _firingSpinDownAudioSource;
         private AudioSource _barrelSpinDownAudioSource;
 
         private float currentSpinSpeed = 0.0f;
         private bool isFiring = false;
 
-        private bool isHoldingFire = false;
-
         // The maximum and minimum angles that the gun can aim at
-        private const float MaxYAngle = 30f;
+        private const float MaxYAngle = 20f;
         private const float MinYAngle = -10f;
         private const float MaxXAngle = 50f;
         private const float MinXAngle = -50f;
@@ -57,7 +52,6 @@ namespace StealthBomber
             _barrelSpinUpAudioSource = gameObject.AddComponent<AudioSource>();
             _firingInitialAudioSource = gameObject.AddComponent<AudioSource>();
             _firingLoopAudioSource = gameObject.AddComponent<AudioSource>();
-            _barrelSpinningLoopAudioSource = gameObject.AddComponent<AudioSource>();
             _firingSpinDownAudioSource = gameObject.AddComponent<AudioSource>();
             _barrelSpinDownAudioSource = gameObject.AddComponent<AudioSource>();
 
@@ -65,7 +59,6 @@ namespace StealthBomber
             _barrelSpinUpAudioSource.clip = barrelSpinUpSound;
             _firingInitialAudioSource.clip = firingInitialSound;
             _firingLoopAudioSource.clip = firingLoopSound;
-            _barrelSpinningLoopAudioSource.clip = barrelSpinningLoopSound;
             _firingSpinDownAudioSource.clip = firingSpinDownSound;
             _barrelSpinDownAudioSource.clip = barrelSpinDownSound;
 
@@ -73,21 +66,18 @@ namespace StealthBomber
             _barrelSpinUpAudioSource.loop = false;
             _firingInitialAudioSource.loop = false;
             _firingLoopAudioSource.loop = true;
-            _barrelSpinningLoopAudioSource.loop = true;
             _firingSpinDownAudioSource.loop = false;
             _barrelSpinDownAudioSource.loop = false;
 
             _barrelSpinUpAudioSource.playOnAwake = false;
             _firingInitialAudioSource.playOnAwake = false;
             _firingLoopAudioSource.playOnAwake = false;
-            _barrelSpinningLoopAudioSource.playOnAwake = false;
             _firingSpinDownAudioSource.playOnAwake = false;
             _barrelSpinDownAudioSource.playOnAwake = false;
 
             _barrelSpinUpAudioSource.volume = 0.1f;
             _firingInitialAudioSource.volume = 0.1f;
-            _firingLoopAudioSource.volume = 0.0f;
-            _barrelSpinningLoopAudioSource.volume = 0.1f;
+            _firingLoopAudioSource.volume = 0.1f;
             _firingSpinDownAudioSource.volume = 0.1f;
             _barrelSpinDownAudioSource.volume = 0.1f;
         }
@@ -97,13 +87,6 @@ namespace StealthBomber
             AimTurret();
             HandleSpin();
             HandleFiring();
-        }
-
-
-        void Fire()
-        {
-            // Instantiate bullet and add force, or implement your firing logic here
-            //Instantiate(bulletPrefab, bulletSpawnPoint.position, bulletSpawnPoint.rotation);
         }
 
         private void AimTurret()
@@ -130,12 +113,12 @@ namespace StealthBomber
         {
             if (Input.GetMouseButton(0))
             {
-                if (!isFiring && !_barrelSpinUpAudioSource.isPlaying && !isHoldingFire)
+                if (!isFiring && !_barrelSpinUpAudioSource.isPlaying)
                 {
-                    // Get the percentage of the current spin speed to the max spin speed and use that to set the playback position
-                    var time = Mathf.Clamp01(1.0f - currentSpinSpeed / maxSpinSpeed) *
-                        _barrelSpinUpAudioSource.clip.length - 0.01f;
-                    _barrelSpinUpAudioSource.time = time;
+                    // // Get the percentage of the current spin speed to the max spin speed and use that to set the playback position
+                    // var time = currentSpinSpeed / maxSpinSpeed * _barrelSpinUpAudioSource.clip.length - 0.01f;
+                    // _barrelSpinUpAudioSource.time = time;
+                    // Debug.Log("Playing barrel spin up" + time);
                     _barrelSpinUpAudioSource.Play();
 
                     if (_barrelSpinDownAudioSource.isPlaying)
@@ -156,16 +139,8 @@ namespace StealthBomber
                         _firingLoopAudioSource.Play();
                     }
 
-                    if (!_barrelSpinningLoopAudioSource.isPlaying)
-                    {
-                        Debug.Log("Playing barrel spinning loop");
-                        _barrelSpinningLoopAudioSource.Play();
-                    }
-
                     isFiring = true;
                 }
-
-                isHoldingFire = true;
             }
             else
             {
@@ -178,16 +153,16 @@ namespace StealthBomber
 
                 if (isFiring)
                 {
+                    if (!_barrelSpinDownAudioSource.isPlaying && currentSpinSpeed > 0f)
+                    {
+                        _barrelSpinDownAudioSource.Play();
+                    }
+
                     if (_firingLoopAudioSource.isPlaying)
                     {
                         _firingLoopAudioSource.Stop();
                     }
 
-                    if (_barrelSpinningLoopAudioSource.isPlaying)
-                    {
-                        _barrelSpinningLoopAudioSource.Stop();
-                    }
-                    //
                     // float playbackPosition =
                     //     Mathf.Clamp(currentSpinSpeed / 2.0f, 0, _firingSpinDownAudioSource.clip.length);
                     // _firingSpinDownAudioSource.time = playbackPosition;
@@ -200,19 +175,8 @@ namespace StealthBomber
                     {
                         _barrelSpinUpAudioSource.Stop();
                     }
-
-                    if (!_barrelSpinDownAudioSource.isPlaying && !_firingSpinDownAudioSource.isPlaying &&
-                        currentSpinSpeed > 0.0f && isHoldingFire)
-                    {
-                        // Get the percentage of the current spin speed to the max spin speed and use that to set the playback position
-                        var time = Mathf.Clamp01(1.0f - currentSpinSpeed / maxSpinSpeed) *
-                            _barrelSpinDownAudioSource.clip.length - 0.01f;
-                        _barrelSpinDownAudioSource.time = time;
-                        _barrelSpinDownAudioSource.Play();
-                    }
                 }
 
-                isHoldingFire = false;
                 isFiring = false;
             }
 
@@ -231,6 +195,13 @@ namespace StealthBomber
 
                 fireTimer -= Time.deltaTime;
             }
+        }
+
+
+        void Fire()
+        {
+            // Instantiate bullet and add force, or implement your firing logic here
+            //Instantiate(bulletPrefab, bulletSpawnPoint.position, bulletSpawnPoint.rotation);
         }
     }
 }
