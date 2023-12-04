@@ -15,6 +15,9 @@ namespace StealthBomber
         // Reference to cockpit game object
         public GameObject cockpit;
         
+        // Reference to the stealth bomber game object
+        public GameObject stealthBomber;
+        
         // Reference to the raw image to fade the screen to a colour
         public RawImage fadeImage;
         public float fadeDuration = 3f;
@@ -59,6 +62,8 @@ namespace StealthBomber
                 float alpha = Mathf.Clamp01(elapsedTime / fadeDuration);
                 fadeImage.color = new Color(0, 0, 0, alpha);
             }
+            
+            //stealthBomber.SetActive(false);
             
             yield return new WaitForSeconds(1f);
 

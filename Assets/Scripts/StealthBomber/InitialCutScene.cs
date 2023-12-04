@@ -8,17 +8,17 @@ namespace StealthBomber
     /// </summary>
     public class StealthBomberMovement : MonoBehaviour
     {
-        //Starting altitude of the stealth bomber
-        public float startingAltitude = 5000f;
-        
-        // The altitude at which the stealth bomber will stop ascending
-        public float endingAltitude = 8900f;
-
-        // The speed at which the stealth bomber will ascend
-        public float ascendSpeed = 200f;
-
         // Reference to the camera manager
         public CameraManager cameraManager;
+        
+        //Starting altitude of the stealth bomber
+        private float startingAltitude = 10000;
+        
+        // The altitude at which the stealth bomber will stop ascending
+        private float endingAltitude = 16000;
+
+        // The speed at which the stealth bomber will ascend
+        private float ascendSpeed = 200f;
 
         private bool _switchToCockpitCamera = false;
         private bool _switchToFollowCamera = false;
