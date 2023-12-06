@@ -63,6 +63,8 @@ namespace StealthBomber
                 screenFade.FadeScreen(1f, Color.clear, 1f),
                 stealthBomber,
                 cockpit));
+            
+            GameStateManager.CurrentGameState = GameState.Cockpit;
         }
 
         public void TransitionFromWidePan()
@@ -75,12 +77,16 @@ namespace StealthBomber
         {
             cinemachineFollowStealthBomberCamera.gameObject.SetActive(false);
             cinemachineCockpitCamera.gameObject.SetActive(true);
+
+            GameStateManager.CurrentGameState = GameState.Flying;
         }
 
         public void SwitchToMinigunCamera()
         {
             cinemachineMinigunCamera.gameObject.SetActive(true);
             cinemachineCockpitCamera.gameObject.SetActive(false);
+            
+            GameStateManager.CurrentGameState = GameState.Minigun;
         }
 
 

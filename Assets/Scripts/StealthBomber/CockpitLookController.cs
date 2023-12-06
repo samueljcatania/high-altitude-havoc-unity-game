@@ -8,6 +8,9 @@ namespace StealthBomber
         // Reference to the main camera in the scene
         public Camera mainCamera;
 
+        // Reference to the layer that contains the interactable objects in the cockpit
+        public LayerMask interactableLayer;
+
         // Reference to the material used to highlight interactable objects
         public Material highlightMaterial;
 
@@ -20,16 +23,21 @@ namespace StealthBomber
         // The maximum and minimum angles that the gun can aim at
         private const float MaxYAngle = 60f;
         private const float MinYAngle = -15f;
-        private const float MaxXAngle = 220f;
-        private const float MinXAngle = 140f;
+        private const float MaxXAngle = 230f;
+        private const float MinXAngle = 150f;
 
         // The current and target rotation used for smoothing
         private Vector2 _currentRotation;
         private Vector2 _targetRotation;
 
         // Dictionary used to cache the renderers of game objects that are interactable in the cockpit
-        private readonly Dictionary<GameObject, Renderer> _objectRenderers = new Dictionary<GameObject, Renderer>();
-        private readonly Dictionary<Renderer, Material> _originalMaterials = new Dictionary<Renderer, Material>();
+        private readonly Dictionary<GameObject, Renderer> _objectRenderers = new();
+
+        // Dictionary used to cache the original materials of the interactable objects in the cockpit
+        private readonly Dictionary<Renderer, Material> _originalMaterials = new();
+
+        // Dictionary used to cache the interactable scripts of each interactable object in the cockpit
+        private readonly Dictionary<GameObject, IInteractable> _objectInteractables = new();
 
         // A reference to the currently highlighted object
         private GameObject _currentlyHighlightedObject;
@@ -39,9 +47,6 @@ namespace StealthBomber
 
         // The time of the last raycast
         private float _lastRaycastTime = 0f;
-        
-        // Reference to the layer that contains the interactable objects in the cockpit
-        private LayerMask _interactableLayer;
 
 
         /// <summary>
@@ -49,7 +54,6 @@ namespace StealthBomber
         /// </summary>
         private void Start()
         {
-            _interactableLayer =  LayerMask.NameToLayer("Interactable");
             OnEnable();
             Cursor.lockState = CursorLockMode.Locked;
             Cursor.visible = false;
@@ -73,6 +77,9 @@ namespace StealthBomber
         /// </summary>
         private void Update()
         {
+            // Only handle aiming and interaction if the game state is Cockpit
+            if (GameStateManager.CurrentGameState != GameState.Cockpit) return;
+            
             HandleAiming();
 
             // If the time since the last raycast is less than the delay, return
@@ -91,10 +98,8 @@ namespace StealthBomber
             foreach (var interactableObject in GameObject.FindGameObjectsWithTag("Interactable"))
             {
                 var objectRenderer = interactableObject.GetComponent<Renderer>();
-                if (objectRenderer != null)
-                {
-                    _objectRenderers[interactableObject] = objectRenderer;
-                }
+                _objectRenderers[interactableObject] = objectRenderer;
+                _objectInteractables[interactableObject] = interactableObject.GetComponent<IInteractable>();
             }
         }
 
@@ -122,7 +127,7 @@ namespace StealthBomber
         private void ResetHighlight()
         {
             // If the currently highlighted object is null or doesn't exist in the dictionary, return
-            if (_currentlyHighlightedObject == null ||
+            if (ReferenceEquals(_currentlyHighlightedObject, null) ||
                 !_objectRenderers.TryGetValue(_currentlyHighlightedObject, out var objectRenderer)) return;
 
             // Revert to the original material
@@ -166,22 +171,22 @@ namespace StealthBomber
         {
             var ray = mainCamera.ViewportPointToRay(new Vector3(0.5f, 0.5f, 0));
 
-            if (Physics.Raycast(ray, out var hit, Mathf.Infinity, _interactableLayer))
+            if (Physics.Raycast(ray, out var hit, 10f, interactableLayer))
             {
                 var hitObject = hit.collider.gameObject;
 
                 // If the object hit is not interactable or is already highlighted, return
                 if (!hitObject.CompareTag("Interactable") || hitObject == _currentlyHighlightedObject) return;
-                
+
                 // Reset the highlight of the currently highlighted object and highlight the new object
                 ResetHighlight();
                 _currentlyHighlightedObject = hitObject;
                 HighlightObject(_currentlyHighlightedObject);
-                    
+
                 // If the player clicks the left mouse button when looking at an interactable object
                 if (Input.GetMouseButtonDown(0))
                 {
-                    //2hit.collider.GetComponent<YourInteractableClass>().Interact();
+                    _objectInteractables[hitObject].PerformAction();
                 }
             }
             else

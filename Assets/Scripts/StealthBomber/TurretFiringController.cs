@@ -9,7 +9,7 @@ namespace StealthBomber
         public float maxSpinSpeed = 2000f;
         public float spinUpSpeed = 500f;
         public float spinDownSpeed = 1000f;
-        
+
         //public GameObject bulletPrefab;
         //public Transform bulletSpawnPoint;
         public float fireRate = 0.1f;
@@ -19,8 +19,11 @@ namespace StealthBomber
         private bool isFiring = false;
 
 
-        void Update()
+        private void Update()
         {
+            // Only handle firing if the game state is Minigun
+            if (GameStateManager.CurrentGameState != GameState.Minigun) return;
+
             HandleSpin();
             HandleFiring();
         }
