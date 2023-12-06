@@ -25,17 +25,6 @@ MonoBehaviour:
         m_PostInfinity: 0
         m_RotationOrder: 0
   - m_From: CockpitVirtualCamera
-    m_To: MinigunVirtualCamera
-    m_Blend:
-      m_Style: 1
-      m_Time: 2
-      m_CustomCurve:
-        serializedVersion: 2
-        m_Curve: []
-        m_PreInfinity: 0
-        m_PostInfinity: 0
-        m_RotationOrder: 0
-  - m_From: CockpitVirtualCamera
     m_To: FollowVirtualCamera
     m_Blend:
       m_Style: 1
@@ -46,10 +35,10 @@ MonoBehaviour:
         m_PreInfinity: 0
         m_PostInfinity: 0
         m_RotationOrder: 0
-  - m_From: MinigunVirtualCamera
+  - m_From: MonitorVirtualCamera
     m_To: CockpitVirtualCamera
     m_Blend:
-      m_Style: 1
+      m_Style: 4
       m_Time: 2
       m_CustomCurve:
         serializedVersion: 2
@@ -72,7 +61,29 @@ MonoBehaviour:
     m_To: MonitorVirtualCamera
     m_Blend:
       m_Style: 5
-      m_Time: 1
+      m_Time: 2
+      m_CustomCurve:
+        serializedVersion: 2
+        m_Curve: []
+        m_PreInfinity: 0
+        m_PostInfinity: 0
+        m_RotationOrder: 0
+  - m_From: MinigunVirtualCamera
+    m_To: MonitorVirtualCamera
+    m_Blend:
+      m_Style: 0
+      m_Time: 2
+      m_CustomCurve:
+        serializedVersion: 2
+        m_Curve: []
+        m_PreInfinity: 0
+        m_PostInfinity: 0
+        m_RotationOrder: 0
+  - m_From: MonitorVirtualCamera
+    m_To: MinigunVirtualCamera
+    m_Blend:
+      m_Style: 0
+      m_Time: 2
       m_CustomCurve:
         serializedVersion: 2
         m_Curve: []

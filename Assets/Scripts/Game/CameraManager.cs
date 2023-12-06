@@ -1,8 +1,6 @@
-using System;
 using System.Collections;
 using System.Collections.Generic;
 using Cinemachine;
-using StealthBomber;
 using UnityEngine;
 
 namespace Game
@@ -76,7 +74,7 @@ namespace Game
                     {
                         SwitchCamera(4);
                         StartCoroutine(FadeSequence(
-                            screenFade.FadeScreen(1f, Color.white),
+                            screenFade.FadeScreen(0f, Color.white),
                             screenFade.FadeScreen(1f, Color.clear, 1f),
                             GameStateToCameraIndex[newState]));
                     }
@@ -84,7 +82,7 @@ namespace Game
                     {
                         SwitchCamera(GameStateToCameraIndex[newState]);
                         StartCoroutine(FadeSequence(
-                            screenFade.FadeScreen(1f, Color.black),
+                            screenFade.FadeScreen(0.7f, Color.black),
                             screenFade.FadeScreen(1f, Color.clear, 1f)));
                     }
 
@@ -93,7 +91,7 @@ namespace Game
                 case GameState.Flying:
                     SwitchCamera(GameStateToCameraIndex[newState]);
                     StartCoroutine(FadeSequence(
-                        screenFade.FadeScreen(1f, Color.black),
+                        screenFade.FadeScreen(0.2f, Color.black),
                         screenFade.FadeScreen(1f, Color.clear, 1f)));
                     break;
 
@@ -103,9 +101,10 @@ namespace Game
                         screenFade.FadeScreen(1f, Color.white),
                         screenFade.FadeScreen(1f, Color.clear, 1f), 3));
                     break;
-                
+
                 default:
-                    throw new ArgumentOutOfRangeException(nameof(newState), newState, null);
+                    SwitchCamera(GameStateToCameraIndex[newState]);
+                    break;
             }
         }
 

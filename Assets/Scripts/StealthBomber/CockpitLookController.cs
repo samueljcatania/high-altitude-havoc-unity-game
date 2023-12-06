@@ -43,7 +43,7 @@ namespace StealthBomber
         private readonly Dictionary<GameObject, IInteractable> _objectInteractables = new();
 
         // A reference to the currently highlighted object
-        private GameObject _currentlyHighlightedObject;
+        public GameObject _currentlyHighlightedObject;
 
 
         /// <summary>

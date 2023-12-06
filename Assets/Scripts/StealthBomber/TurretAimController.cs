@@ -1,3 +1,5 @@
+using System.Collections;
+using Game;
 using UnityEngine;
 
 namespace StealthBomber
@@ -6,21 +8,25 @@ namespace StealthBomber
     {
         // Reference to the barrel of the turret to control its spin
         public Transform barrel;
-        
+
+        public Light muzzleFlashLight;
+        public ParticleSystem muzzleFlashParticles;
+        public float muzzleFlashDuration = 0.05f;
+
         // References to the audio clips for the turret
         public AudioClip barrelSpinUpSound;
         public AudioClip firingInitialSound;
         public AudioClip firingLoopSound;
         public AudioClip firingSpinDownSound;
         public AudioClip barrelSpinDownSound;
-        
+
         // The speed at which the turret will spin up, spin down, and rotate when firing
         public float maxSpinSpeed = 2000f;
         public float spinUpSpeed = 1200f;
         public float spinDownSpeed = 1000f;
-        
+
         // The speed at which the turret will fire
-        public float fireRate = 0.1f;
+        public float fireRate = 0.01f;
 
         // References to the audio sources for the turret to make for each audio clip
         private AudioSource _barrelSpinUpAudioSource;
@@ -28,25 +34,30 @@ namespace StealthBomber
         private AudioSource _firingLoopAudioSource;
         private AudioSource _firingSpinDownAudioSource;
         private AudioSource _barrelSpinDownAudioSource;
-        
+
         // The sensitivity of the mouse when aiming the turret
         public float sensitivity = 100.0f;
-        
+
         // The smoothing applied to the movement of the turret when aiming
         public float aimSmoothing = 10.0f;
-        
+
+        public Transform firePoint;
+
         // The maximum and minimum angles that the gun can aim at
         private const float MaxYAngle = 20f;
         private const float MinYAngle = -10f;
         private const float MaxXAngle = 50f;
         private const float MinXAngle = -50f;
 
+        public float bulletSpeed = 2000f;
+
+
         private float _currentSpinSpeed = 0.0f;
         private bool _isFiring = false;
 
         private Vector2 _currentRotation;
         private Vector2 _targetRotation;
-        
+
         private float _fireTimer;
 
 
@@ -61,8 +72,8 @@ namespace StealthBomber
             Cursor.visible = false;
             SetupAudio();
         }
-        
-        
+
+
         /// <summary>
         /// Called every time the object is enabled, resets the rotation variables to a default value.
         /// </summary>
@@ -113,7 +124,7 @@ namespace StealthBomber
             _barrelSpinDownAudioSource.volume = 0.1f;
         }
 
-        
+
         /// <summary>
         /// Called every frame, handles the aiming and firing of the turret.
         /// </summary>
@@ -121,13 +132,13 @@ namespace StealthBomber
         {
             // Only handle aiming and firing if the game state is Minigun
             if (GameStateManager.CurrentGameState != GameState.Minigun) return;
-            
+
             AimTurret();
             HandleSpin();
             HandleFiring();
         }
 
-        
+
         /// <summary>
         /// Handles the aiming of the turret.
         /// </summary>
@@ -151,7 +162,7 @@ namespace StealthBomber
             transform.localEulerAngles = new Vector3(_currentRotation.x, _currentRotation.y, 0);
         }
 
-        
+
         /// <summary>
         /// Handles the spinning animation of the barrel of the turret and the audio for the spinning.
         /// </summary>
@@ -246,8 +257,20 @@ namespace StealthBomber
 
         void Fire()
         {
-            // Instantiate bullet and add force, or implement your firing logic here
-            //Instantiate(bulletPrefab, bulletSpawnPoint.position, bulletSpawnPoint.rotation);
+            muzzleFlashParticles.Emit(1);
+            StartCoroutine(TurnOnLight());
+            GameObject bullet = BulletPool.Instance.GetBullet();
+            bullet.transform.position = firePoint.position;
+            bullet.transform.rotation = firePoint.rotation;
+            Rigidbody rb = bullet.GetComponent<Rigidbody>();
+            rb.velocity = -firePoint.forward * bulletSpeed;
+        }
+
+        private IEnumerator TurnOnLight()
+        {
+            muzzleFlashLight.enabled = true;
+            yield return new WaitForSeconds(muzzleFlashDuration);
+            muzzleFlashLight.enabled = false;
         }
     }
 }
