@@ -484,7 +484,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 196804, guid: a915a3285fc7e49638568c2e6c584872, type: 3}
       propertyPath: m_Name
-      value: StealthBomber Variant
+      value: StealthBomber
       objectReference: {fileID: 0}
     - target: {fileID: 494118, guid: a915a3285fc7e49638568c2e6c584872, type: 3}
       propertyPath: m_LocalScale.x
@@ -573,11 +573,7 @@ PrefabInstance:
         type: 3}
       insertIndex: -1
       addedObject: {fileID: 5214815244983954244}
-    m_AddedComponents:
-    - targetCorrespondingSourceObject: {fileID: 196804, guid: a915a3285fc7e49638568c2e6c584872,
-        type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 5003591091982902458}
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: a915a3285fc7e49638568c2e6c584872, type: 3}
 --- !u!4 &7498960800931433221 stripped
 Transform:
@@ -585,24 +581,3 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 7498960800931856675}
   m_PrefabAsset: {fileID: 0}
---- !u!1 &7498960800931660263 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 196804, guid: a915a3285fc7e49638568c2e6c584872,
-    type: 3}
-  m_PrefabInstance: {fileID: 7498960800931856675}
-  m_PrefabAsset: {fileID: 0}
---- !u!114 &5003591091982902458
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7498960800931660263}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0a85e22f9b47578b9aa5e0cd5fce0fe5, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  endingAltitude: 8900
-  ascendSpeed: 10
-  speed: 10000

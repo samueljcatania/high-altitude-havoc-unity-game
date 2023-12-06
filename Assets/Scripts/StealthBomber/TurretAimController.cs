@@ -4,50 +4,81 @@ namespace StealthBomber
 {
     public class TurretAimController : MonoBehaviour
     {
-        public float sensitivity = 100.0f;
-        public float aimSmoothing = 10.0f;
-
+        // Reference to the barrel of the turret to control its spin
+        public Transform barrel;
+        
+        // References to the audio clips for the turret
         public AudioClip barrelSpinUpSound;
         public AudioClip firingInitialSound;
         public AudioClip firingLoopSound;
         public AudioClip firingSpinDownSound;
         public AudioClip barrelSpinDownSound;
+        
+        // The speed at which the turret will spin up, spin down, and rotate when firing
+        public float maxSpinSpeed = 2000f;
+        public float spinUpSpeed = 1200f;
+        public float spinDownSpeed = 1000f;
+        
+        // The speed at which the turret will fire
+        public float fireRate = 0.1f;
 
+        // References to the audio sources for the turret to make for each audio clip
         private AudioSource _barrelSpinUpAudioSource;
         private AudioSource _firingInitialAudioSource;
         private AudioSource _firingLoopAudioSource;
         private AudioSource _firingSpinDownAudioSource;
         private AudioSource _barrelSpinDownAudioSource;
-
-        private float currentSpinSpeed = 0.0f;
-        private bool isFiring = false;
-
+        
+        // The sensitivity of the mouse when aiming the turret
+        public float sensitivity = 100.0f;
+        
+        // The smoothing applied to the movement of the turret when aiming
+        public float aimSmoothing = 10.0f;
+        
         // The maximum and minimum angles that the gun can aim at
         private const float MaxYAngle = 20f;
         private const float MinYAngle = -10f;
         private const float MaxXAngle = 50f;
         private const float MinXAngle = -50f;
 
-        private Vector2 currentRotation;
-        private Vector2 targetRotation;
+        private float _currentSpinSpeed = 0.0f;
+        private bool _isFiring = false;
 
-        public float maxSpinSpeed = 2000f;
-        public float spinUpSpeed = 1200f;
-        public float spinDownSpeed = 1000f;
-
-        public float fireRate = 0.1f;
-        private float fireTimer;
-
-        public Transform barrel;
+        private Vector2 _currentRotation;
+        private Vector2 _targetRotation;
+        
+        private float _fireTimer;
 
 
+        /// <summary>
+        /// Sets the initial rotation of the turret, hides the cursor and locks it to the center of the screen,
+        /// and sets up the audio. 
+        /// </summary>
         private void Start()
         {
+            OnEnable();
             Cursor.lockState = CursorLockMode.Locked;
             Cursor.visible = false;
-            currentRotation = transform.localEulerAngles;
-            targetRotation = transform.localEulerAngles;
+            SetupAudio();
+        }
+        
+        
+        /// <summary>
+        /// Called every time the object is enabled, resets the rotation variables to a default value.
+        /// </summary>
+        private void OnEnable()
+        {
+            _targetRotation = new Vector2(0, 0);
+            _currentRotation = _targetRotation;
+            transform.localEulerAngles = new Vector3(_currentRotation.x, _targetRotation.y, 0);
+        }
 
+
+        /// <summary>
+        /// Sets up the audio sources with corresponding audio clips and properties for the turret.
+        /// </summary>
+        private void SetupAudio()
+        {
             // Create audio sources
             _barrelSpinUpAudioSource = gameObject.AddComponent<AudioSource>();
             _firingInitialAudioSource = gameObject.AddComponent<AudioSource>();
@@ -92,28 +123,28 @@ namespace StealthBomber
         private void AimTurret()
         {
             // Get mouse movement
-            float mouseX = Input.GetAxis("Mouse X") * sensitivity * Time.deltaTime;
-            float mouseY = Input.GetAxis("Mouse Y") * sensitivity * Time.deltaTime;
+            var mouseX = Input.GetAxis("Mouse X") * sensitivity * Time.deltaTime;
+            var mouseY = Input.GetAxis("Mouse Y") * sensitivity * Time.deltaTime;
 
-            targetRotation.y += mouseX;
-            targetRotation.x += mouseY;
+            _targetRotation.y += mouseX;
+            _targetRotation.x += mouseY;
 
             // Clamp the rotation
-            targetRotation.x = Mathf.Clamp(targetRotation.x, MinYAngle, MaxYAngle);
-            targetRotation.y = Mathf.Clamp(targetRotation.y, MinXAngle, MaxXAngle);
+            _targetRotation.x = Mathf.Clamp(_targetRotation.x, MinYAngle, MaxYAngle);
+            _targetRotation.y = Mathf.Clamp(_targetRotation.y, MinXAngle, MaxXAngle);
 
             // Smoothly interpolate towards the target rotation
-            currentRotation = Vector2.Lerp(currentRotation, targetRotation, aimSmoothing * Time.deltaTime);
+            _currentRotation = Vector2.Lerp(_currentRotation, _targetRotation, aimSmoothing * Time.deltaTime);
 
             // Apply the rotation
-            transform.localEulerAngles = new Vector3(currentRotation.x, currentRotation.y, 0);
+            transform.localEulerAngles = new Vector3(_currentRotation.x, _currentRotation.y, 0);
         }
 
         private void HandleSpin()
         {
             if (Input.GetMouseButton(0))
             {
-                if (!isFiring && !_barrelSpinUpAudioSource.isPlaying)
+                if (!_isFiring && !_barrelSpinUpAudioSource.isPlaying)
                 {
                     // // Get the percentage of the current spin speed to the max spin speed and use that to set the playback position
                     // var time = currentSpinSpeed / maxSpinSpeed * _barrelSpinUpAudioSource.clip.length - 0.01f;
@@ -128,10 +159,10 @@ namespace StealthBomber
                 }
 
                 // Spin up
-                currentSpinSpeed += spinUpSpeed * Time.deltaTime;
-                if (currentSpinSpeed >= maxSpinSpeed)
+                _currentSpinSpeed += spinUpSpeed * Time.deltaTime;
+                if (_currentSpinSpeed >= maxSpinSpeed)
                 {
-                    currentSpinSpeed = maxSpinSpeed;
+                    _currentSpinSpeed = maxSpinSpeed;
                     //_firingInitialAudioSource.Play();
 
                     if (!_firingLoopAudioSource.isPlaying)
@@ -139,21 +170,21 @@ namespace StealthBomber
                         _firingLoopAudioSource.Play();
                     }
 
-                    isFiring = true;
+                    _isFiring = true;
                 }
             }
             else
             {
                 // Spin down
-                currentSpinSpeed -= spinDownSpeed * Time.deltaTime;
-                if (currentSpinSpeed <= 0.0f)
+                _currentSpinSpeed -= spinDownSpeed * Time.deltaTime;
+                if (_currentSpinSpeed <= 0.0f)
                 {
-                    currentSpinSpeed = 0.0f;
+                    _currentSpinSpeed = 0.0f;
                 }
 
-                if (isFiring)
+                if (_isFiring)
                 {
-                    if (!_barrelSpinDownAudioSource.isPlaying && currentSpinSpeed > 0f)
+                    if (!_barrelSpinDownAudioSource.isPlaying && _currentSpinSpeed > 0f)
                     {
                         _barrelSpinDownAudioSource.Play();
                     }
@@ -177,23 +208,23 @@ namespace StealthBomber
                     }
                 }
 
-                isFiring = false;
+                _isFiring = false;
             }
 
-            barrel.Rotate(Vector3.forward, currentSpinSpeed * Time.deltaTime);
+            barrel.Rotate(Vector3.forward, _currentSpinSpeed * Time.deltaTime);
         }
 
         void HandleFiring()
         {
-            if (isFiring)
+            if (_isFiring)
             {
-                if (fireTimer <= 0f)
+                if (_fireTimer <= 0f)
                 {
                     Fire();
-                    fireTimer = fireRate;
+                    _fireTimer = fireRate;
                 }
 
-                fireTimer -= Time.deltaTime;
+                _fireTimer -= Time.deltaTime;
             }
         }
 
