@@ -9,9 +9,12 @@ namespace Game
         // public UnityEngine.UI.Image healthBar; // For the enemy plane
 
         private float currentHealth;
+        
+        public ParticleSystem damageParticles; // For the enemy plane
 
         void Start()
         {
+            damageParticles.Stop(); // For the enemy plane
             currentHealth = maxHealth;
         }
 
@@ -27,6 +30,11 @@ namespace Game
         {
             currentHealth -= amount;
             // UpdateHealthBar();
+
+            if (currentHealth <= 50)
+            {
+                damageParticles.Play();
+            }
 
             if (currentHealth <= 0)
             {
