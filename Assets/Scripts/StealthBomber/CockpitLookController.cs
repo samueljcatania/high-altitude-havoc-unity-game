@@ -7,6 +7,9 @@ namespace StealthBomber
     {
         // Reference to the main camera in the scene
         public Camera mainCamera;
+        
+        // Reference to the cockpit game object
+        public GameObject cockpit;
 
         // Reference to the layer that contains the interactable objects in the cockpit
         public LayerMask interactableLayer;
@@ -23,8 +26,8 @@ namespace StealthBomber
         // The maximum and minimum angles that the gun can aim at
         private const float MaxYAngle = 60f;
         private const float MinYAngle = -15f;
-        private const float MaxXAngle = 230f;
-        private const float MinXAngle = 150f;
+        private const float MaxXAngle = 50f;
+        private const float MinXAngle = -50f;
 
         // The current and target rotation used for smoothing
         private Vector2 _currentRotation;
@@ -41,12 +44,6 @@ namespace StealthBomber
 
         // A reference to the currently highlighted object
         private GameObject _currentlyHighlightedObject;
-
-        // The delay between raycasts that check for interactable objects to improve performance
-        private const float RaycastDelay = 0.1f;
-
-        // The time of the last raycast
-        private float _lastRaycastTime = 0f;
 
 
         /// <summary>
@@ -66,7 +63,7 @@ namespace StealthBomber
         /// </summary>
         private void OnEnable()
         {
-            _targetRotation = new Vector2(25, 180);
+            _targetRotation = new Vector2(25, 0);
             _currentRotation = _targetRotation;
             transform.localEulerAngles = new Vector3(_currentRotation.x, _currentRotation.y, 0);
         }
@@ -75,18 +72,13 @@ namespace StealthBomber
         /// <summary>
         /// Called every frame, handles the aiming and interaction raycast of the cockpit camera.
         /// </summary>
-        private void Update()
+        private void FixedUpdate()
         {
             // Only handle aiming and interaction if the game state is Cockpit
             if (GameStateManager.CurrentGameState != GameState.Cockpit) return;
             
             HandleAiming();
-
-            // If the time since the last raycast is less than the delay, return
-            if (!(Time.time - _lastRaycastTime >= RaycastDelay)) return;
-
             HandleInteraction();
-            _lastRaycastTime = Time.time;
         }
 
 
@@ -95,12 +87,16 @@ namespace StealthBomber
         /// </summary>
         private void CacheObjectRenderers()
         {
+            cockpit.SetActive(true);
+            
             foreach (var interactableObject in GameObject.FindGameObjectsWithTag("Interactable"))
             {
                 var objectRenderer = interactableObject.GetComponent<Renderer>();
                 _objectRenderers[interactableObject] = objectRenderer;
                 _objectInteractables[interactableObject] = interactableObject.GetComponent<IInteractable>();
             }
+            
+            cockpit.SetActive(false);
         }
 
 
@@ -175,13 +171,13 @@ namespace StealthBomber
             {
                 var hitObject = hit.collider.gameObject;
 
-                // If the object hit is not interactable or is already highlighted, return
-                if (!hitObject.CompareTag("Interactable") || hitObject == _currentlyHighlightedObject) return;
-
-                // Reset the highlight of the currently highlighted object and highlight the new object
-                ResetHighlight();
-                _currentlyHighlightedObject = hitObject;
-                HighlightObject(_currentlyHighlightedObject);
+                // If the new object is the same as the currently highlighted object, don't reset the highlight
+                if (hitObject == !_currentlyHighlightedObject)
+                {
+                    ResetHighlight();
+                    _currentlyHighlightedObject = hitObject;
+                    HighlightObject(_currentlyHighlightedObject);
+                }
 
                 // If the player clicks the left mouse button when looking at an interactable object
                 if (Input.GetMouseButtonDown(0))

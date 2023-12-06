@@ -4,50 +4,55 @@ using UnityEngine;
 namespace Game
 {
     /// <summary>
-    /// This class is responsible for the movement of the stealth bomber.
+    /// This class is responsible for playing the initial cutscene when the game starts.
     /// </summary>
-    public class StealthBomberMovement : MonoBehaviour
+    public class InitialCutScene : MonoBehaviour
     {
         // Reference to the camera manager
         public CameraManager cameraManager;
         
         //Starting altitude of the stealth bomber
-        private float startingAltitude = 10000;
-        
+        private const float StartingAltitude = 10000;
+
         // The altitude at which the stealth bomber will stop ascending
-        private float endingAltitude = 16000;
+        private const float EndingAltitude = 15000;
 
         // The speed at which the stealth bomber will ascend
-        private float ascendSpeed = 200f;
+        private float _ascendSpeed = 200f;
 
-        private bool _switchToCockpitCamera = false;
-        private bool _switchToFollowCamera = false;
+        // Flag to indicate if the camera should switch to the follow camera
+        private bool _switchToFollowCamera;
         
-        /*
-         * Called when the game starts, sets the starting position of the stealth bomber
-         */
+        
+        /// <summary>
+        /// Set the initial position of the stealth bomber to the starting altitude.
+        /// </summary>
         private void Start()
         {
-            transform.position = new Vector3(0, startingAltitude, 0);
+            transform.position = new Vector3(0, StartingAltitude, 0);
         }
 
+        
+        /// <summary>
+        /// Move the stealth bomber up until it reaches the ending altitude, then disable this script.
+        /// </summary>
         private void FixedUpdate()
         {
-            if (transform.position.y < endingAltitude)
+            // When the stealth bomber reaches the ending altitude, set the game state to Flying and disable this script
+            if (!(transform.position.y < EndingAltitude))
             {
-                transform.Translate(Vector3.up * (ascendSpeed * Time.fixedDeltaTime));
-                
-                if (transform.position.y > endingAltitude - 3000f && !_switchToFollowCamera)
-                {
-                    cameraManager.TransitionFromWidePan();
-                    _switchToFollowCamera = true;
-                }
+                GameStateManager.CurrentGameState = GameState.Flying;
+                enabled = false;
             }
-            else if (!_switchToCockpitCamera)
-            {
-                // cameraManager.SwitchToCockpitCamera();
-                // _switchToCockpitCamera = true;
-            }
+            
+            transform.Translate(Vector3.up * (_ascendSpeed * Time.fixedDeltaTime));
+
+            // If the stealth bomber is within 3000 units of the ending altitude, switch to the follow camera
+            if (!(transform.position.y > EndingAltitude - 3000f) || _switchToFollowCamera) return;
+
+            _ascendSpeed = 400f;
+            cameraManager.UpdateGameState(GameState.CutsceneFollow);
+            _switchToFollowCamera = true;
         }
     }
 }

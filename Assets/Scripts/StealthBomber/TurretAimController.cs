@@ -113,13 +113,24 @@ namespace StealthBomber
             _barrelSpinDownAudioSource.volume = 0.1f;
         }
 
+        
+        /// <summary>
+        /// Called every frame, handles the aiming and firing of the turret.
+        /// </summary>
         private void Update()
         {
+            // Only handle aiming and firing if the game state is Minigun
+            if (GameStateManager.CurrentGameState != GameState.Minigun) return;
+            
             AimTurret();
             HandleSpin();
             HandleFiring();
         }
 
+        
+        /// <summary>
+        /// Handles the aiming of the turret.
+        /// </summary>
         private void AimTurret()
         {
             // Get mouse movement
@@ -140,6 +151,10 @@ namespace StealthBomber
             transform.localEulerAngles = new Vector3(_currentRotation.x, _currentRotation.y, 0);
         }
 
+        
+        /// <summary>
+        /// Handles the spinning animation of the barrel of the turret and the audio for the spinning.
+        /// </summary>
         private void HandleSpin()
         {
             if (Input.GetMouseButton(0))

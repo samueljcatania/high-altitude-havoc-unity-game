@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace StealthBomber
+namespace Game
 {
     
     /// <summary>

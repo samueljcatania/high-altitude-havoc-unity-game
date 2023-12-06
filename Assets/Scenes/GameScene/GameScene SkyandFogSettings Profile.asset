@@ -559,7 +559,7 @@ MonoBehaviour:
     m_Value: 270
   windSpeed:
     m_OverrideState: 1
-    m_Value: 4
+    m_Value: 10000
   fogType:
     m_OverrideState: 1
     m_Value: 0
