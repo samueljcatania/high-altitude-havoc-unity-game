@@ -9,15 +9,16 @@ public class GameStateManager : MonoBehaviour
     private static GameStateManager Instance { get; set; }
 
     // The current game state
-    private GameState _currentGameState;
+    private GameState currentGameState;
 
+    
     /// <summary>
     /// Keeps track of the current game state.
     /// </summary>
     public static GameState CurrentGameState
     {
-        get => Instance._currentGameState;
-        set => Instance._currentGameState = value;
+        get => Instance.currentGameState;
+        set => Instance.currentGameState = value;
     }
 
 
@@ -43,6 +44,6 @@ public class GameStateManager : MonoBehaviour
     /// </summary>
     private void Start()
     {
-        _currentGameState = GameState.CutsceneWidePan;
+        currentGameState = GameState.CutsceneWidePan;
     }
 }

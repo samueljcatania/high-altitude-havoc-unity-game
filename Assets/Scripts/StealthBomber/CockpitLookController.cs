@@ -3,6 +3,10 @@ using UnityEngine;
 
 namespace StealthBomber
 {
+    /// <summary>
+    /// This class is responsible for handling the player's view of the cockpit and the interaction with the cockpit
+    /// environment.
+    /// </summary>
     public class CockpitLookController : MonoBehaviour
     {
         // Reference to the main camera in the scene
@@ -10,6 +14,9 @@ namespace StealthBomber
         
         // Reference to the cockpit game object
         public GameObject cockpit;
+        
+        // A reference to the currently highlighted object
+        public GameObject currentlyHighlightedObject;
 
         // Reference to the layer that contains the interactable objects in the cockpit
         public LayerMask interactableLayer;
@@ -30,20 +37,17 @@ namespace StealthBomber
         private const float MinXAngle = -50f;
 
         // The current and target rotation used for smoothing
-        private Vector2 _currentRotation;
-        private Vector2 _targetRotation;
+        private Vector2 currentRotation;
+        private Vector2 targetRotation;
 
         // Dictionary used to cache the renderers of game objects that are interactable in the cockpit
-        private readonly Dictionary<GameObject, Renderer> _objectRenderers = new();
+        private readonly Dictionary<GameObject, Renderer> objectRenderers = new();
 
         // Dictionary used to cache the original materials of the interactable objects in the cockpit
-        private readonly Dictionary<Renderer, Material> _originalMaterials = new();
+        private readonly Dictionary<Renderer, Material> originalMaterials = new();
 
         // Dictionary used to cache the interactable scripts of each interactable object in the cockpit
-        private readonly Dictionary<GameObject, IInteractable> _objectInteractables = new();
-
-        // A reference to the currently highlighted object
-        public GameObject _currentlyHighlightedObject;
+        private readonly Dictionary<GameObject, ICockpitInteractable> objectInteractables = new();
 
 
         /// <summary>
@@ -63,9 +67,9 @@ namespace StealthBomber
         /// </summary>
         private void OnEnable()
         {
-            _targetRotation = new Vector2(25, 0);
-            _currentRotation = _targetRotation;
-            transform.localEulerAngles = new Vector3(_currentRotation.x, _currentRotation.y, 0);
+            targetRotation = new Vector2(25, 0);
+            currentRotation = targetRotation;
+            transform.localEulerAngles = new Vector3(currentRotation.x, currentRotation.y, 0);
         }
 
 
@@ -92,8 +96,8 @@ namespace StealthBomber
             foreach (var interactableObject in GameObject.FindGameObjectsWithTag("Interactable"))
             {
                 var objectRenderer = interactableObject.GetComponent<Renderer>();
-                _objectRenderers[interactableObject] = objectRenderer;
-                _objectInteractables[interactableObject] = interactableObject.GetComponent<IInteractable>();
+                objectRenderers[interactableObject] = objectRenderer;
+                objectInteractables[interactableObject] = interactableObject.GetComponent<ICockpitInteractable>();
             }
             
             cockpit.SetActive(false);
@@ -108,31 +112,32 @@ namespace StealthBomber
         private void HighlightObject(GameObject interactableObject)
         {
             // If the game object is null, return
-            if (!_objectRenderers.TryGetValue(interactableObject, out var objectRenderer)) return;
+            if (!objectRenderers.TryGetValue(interactableObject, out var objectRenderer)) return;
 
             // Store the original material if it hasn't been stored yet
-            _originalMaterials.TryAdd(objectRenderer, objectRenderer.material);
+            originalMaterials.TryAdd(objectRenderer, objectRenderer.material);
 
             // Set the highlight material
             objectRenderer.material = highlightMaterial;
         }
 
+        
         /// <summary>
         /// Resets the highlight material of the currently highlighted object to its original material.
         /// </summary>
         private void ResetHighlight()
         {
             // If the currently highlighted object is null or doesn't exist in the dictionary, return
-            if (ReferenceEquals(_currentlyHighlightedObject, null) ||
-                !_objectRenderers.TryGetValue(_currentlyHighlightedObject, out var objectRenderer)) return;
+            if (ReferenceEquals(currentlyHighlightedObject, null) ||
+                !objectRenderers.TryGetValue(currentlyHighlightedObject, out var objectRenderer)) return;
 
             // Revert to the original material
-            if (_originalMaterials.TryGetValue(objectRenderer, out var originalMaterial))
+            if (originalMaterials.TryGetValue(objectRenderer, out var originalMaterial))
             {
                 objectRenderer.material = originalMaterial;
             }
 
-            _currentlyHighlightedObject = null;
+            currentlyHighlightedObject = null;
         }
 
 
@@ -145,18 +150,18 @@ namespace StealthBomber
             var mouseX = Input.GetAxis("Mouse X") * sensitivity * Time.deltaTime;
             var mouseY = Input.GetAxis("Mouse Y") * sensitivity * Time.deltaTime;
 
-            _targetRotation.y += mouseX;
-            _targetRotation.x -= mouseY;
+            targetRotation.y += mouseX;
+            targetRotation.x -= mouseY;
 
             // Clamp the rotation to the minimum and maximum angles
-            _targetRotation.x = Mathf.Clamp(_targetRotation.x, MinYAngle, MaxYAngle);
-            _targetRotation.y = Mathf.Clamp(_targetRotation.y, MinXAngle, MaxXAngle);
+            targetRotation.x = Mathf.Clamp(targetRotation.x, MinYAngle, MaxYAngle);
+            targetRotation.y = Mathf.Clamp(targetRotation.y, MinXAngle, MaxXAngle);
 
             // Smoothly interpolate towards the target rotation
-            _currentRotation = Vector2.Lerp(_currentRotation, _targetRotation, aimSmoothing * Time.deltaTime);
+            currentRotation = Vector2.Lerp(currentRotation, targetRotation, aimSmoothing * Time.deltaTime);
 
             // Apply the rotation
-            transform.localEulerAngles = new Vector3(_currentRotation.x, _currentRotation.y, 0);
+            transform.localEulerAngles = new Vector3(currentRotation.x, currentRotation.y, 0);
         }
 
 
@@ -172,17 +177,17 @@ namespace StealthBomber
                 var hitObject = hit.collider.gameObject;
 
                 // If the new object is the same as the currently highlighted object, don't reset the highlight
-                if (hitObject == !_currentlyHighlightedObject)
+                if (hitObject == !currentlyHighlightedObject)
                 {
                     ResetHighlight();
-                    _currentlyHighlightedObject = hitObject;
-                    HighlightObject(_currentlyHighlightedObject);
+                    currentlyHighlightedObject = hitObject;
+                    HighlightObject(currentlyHighlightedObject);
                 }
 
                 // If the player clicks the left mouse button when looking at an interactable object
                 if (Input.GetMouseButtonDown(0))
                 {
-                    _objectInteractables[hitObject].PerformAction();
+                    objectInteractables[hitObject].PerformAction();
                 }
             }
             else

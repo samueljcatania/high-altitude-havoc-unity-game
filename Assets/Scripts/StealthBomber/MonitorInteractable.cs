@@ -4,9 +4,9 @@ using UnityEngine;
 namespace StealthBomber
 {
     /// <summary>
-    /// This class implements the IInteractable interface to allow the player to interact with the monitor.
+    /// This class implements the ICockpitInteractable interface to allow the player to interact with the monitor.
     /// </summary>
-    public class MonitorInteractable : MonoBehaviour, IInteractable
+    public class MonitorInteractable : MonoBehaviour, ICockpitInteractable
     {
         // Reference to the camera manager
         public CameraManager cameraManager;

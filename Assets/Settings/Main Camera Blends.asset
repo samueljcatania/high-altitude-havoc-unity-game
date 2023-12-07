@@ -13,8 +13,8 @@ MonoBehaviour:
   m_Name: Main Camera Blends
   m_EditorClassIdentifier: 
   m_CustomBlends:
-  - m_From: FarPanVirtualCamera
-    m_To: FollowVirtualCamera
+  - m_From: CutsceneWidePan_VirtualCamera
+    m_To: CutsceneFollow_VirtualCamera
     m_Blend:
       m_Style: 1
       m_Time: 5
@@ -24,8 +24,8 @@ MonoBehaviour:
         m_PreInfinity: 0
         m_PostInfinity: 0
         m_RotationOrder: 0
-  - m_From: CockpitVirtualCamera
-    m_To: FollowVirtualCamera
+  - m_From: Cockpit_VirtualCamera
+    m_To: CutsceneFollow_VirtualCamera
     m_Blend:
       m_Style: 1
       m_Time: 2
@@ -35,8 +35,8 @@ MonoBehaviour:
         m_PreInfinity: 0
         m_PostInfinity: 0
         m_RotationOrder: 0
-  - m_From: MonitorVirtualCamera
-    m_To: CockpitVirtualCamera
+  - m_From: Monitor_VirtualCamera
+    m_To: Cockpit_VirtualCamera
     m_Blend:
       m_Style: 4
       m_Time: 2
@@ -46,8 +46,8 @@ MonoBehaviour:
         m_PreInfinity: 0
         m_PostInfinity: 0
         m_RotationOrder: 0
-  - m_From: FollowVirtualCamera
-    m_To: CockpitVirtualCamera
+  - m_From: CutsceneFollow_VirtualCamera
+    m_To: Cockpit_VirtualCamera
     m_Blend:
       m_Style: 5
       m_Time: 2
@@ -57,8 +57,8 @@ MonoBehaviour:
         m_PreInfinity: 0
         m_PostInfinity: 0
         m_RotationOrder: 0
-  - m_From: CockpitVirtualCamera
-    m_To: MonitorVirtualCamera
+  - m_From: Cockpit_VirtualCamera
+    m_To: Monitor_VirtualCamera
     m_Blend:
       m_Style: 5
       m_Time: 2
@@ -68,8 +68,8 @@ MonoBehaviour:
         m_PreInfinity: 0
         m_PostInfinity: 0
         m_RotationOrder: 0
-  - m_From: MinigunVirtualCamera
-    m_To: MonitorVirtualCamera
+  - m_From: Minigun_VirtualCamera
+    m_To: Monitor_VirtualCamera
     m_Blend:
       m_Style: 0
       m_Time: 2
@@ -79,8 +79,8 @@ MonoBehaviour:
         m_PreInfinity: 0
         m_PostInfinity: 0
         m_RotationOrder: 0
-  - m_From: MonitorVirtualCamera
-    m_To: MinigunVirtualCamera
+  - m_From: Monitor_VirtualCamera
+    m_To: Minigun_VirtualCamera
     m_Blend:
       m_Style: 0
       m_Time: 2

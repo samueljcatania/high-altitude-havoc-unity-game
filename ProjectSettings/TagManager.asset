@@ -6,6 +6,7 @@ TagManager:
   tags:
   - Afterburner
   - Interactable
+  - VirtualCamera
   layers:
   - Default
   - TransparentFX

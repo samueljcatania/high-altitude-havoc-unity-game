@@ -4,9 +4,9 @@ using UnityEngine;
 namespace StealthBomber
 {
     /// <summary>
-    /// This class implements the IInteractable interface to allow the player to interact with the joystick.
+    /// This class implements the ICockpitInteractable interface to allow the player to interact with the joystick.
     /// </summary>
-    public class JoystickInteractable : MonoBehaviour, IInteractable
+    public class JoystickInteractable : MonoBehaviour, ICockpitInteractable
     {
         // Reference to the camera manager
         public CameraManager cameraManager;

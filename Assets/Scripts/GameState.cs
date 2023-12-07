@@ -6,5 +6,6 @@ public enum GameState {
     CutsceneFollow,
     Flying,
     Cockpit,
-    Minigun
+    Minigun,
+    Monitor
 }

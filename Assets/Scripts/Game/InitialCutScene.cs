@@ -1,4 +1,3 @@
-using StealthBomber;
 using UnityEngine;
 
 namespace Game
