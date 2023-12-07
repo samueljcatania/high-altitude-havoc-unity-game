@@ -24,9 +24,6 @@ namespace Menu
         // References to the UI elements in the start menu
         public TMP_InputField playerName;
 
-        // Reference to the game object that contains the leaderboard database
-        private LeaderboardDatabase _leaderboardDatabase;
-
         // Reference to the menu audio manager that manages the audio in the main menu
         public MenuAudioManager menuAudioManager;
 
@@ -43,11 +40,18 @@ namespace Menu
 
         // Reference to the glowing glass material
         public Material glowingGlassMaterial;
-        private static readonly int EmissionColor = Shader.PropertyToID("_EmissiveColor");
+        
+        // Reference to the game object that contains the leaderboard database
+        private LeaderboardDatabase _leaderboardDatabase;
+        
+        // The ID of the emission color property in the glowing glass material
+        private static readonly int EMISSION_COLOR = Shader.PropertyToID("_EmissiveColor");
 
-        /*
-         * Called when the game starts, provides initial setup for the main menu and its submenus
-         */
+        
+        /// <summary>
+        /// When the game starts, set the orbit camera to be active by default and set the FPS counter to its last
+        /// known state.
+        /// </summary>
         private void Start()
         {
             // Set the orbit camera to be active by default when the menu scene is loaded
@@ -80,9 +84,9 @@ namespace Menu
         }
 
 
-        /*
-         * Loads the main game scene
-         */
+        /// <summary>
+        /// Called when the player clicks the play button, starts the game after validating the player name.
+        /// </summary>
         public void PlayGame()
         {
             if (!string.IsNullOrWhiteSpace(playerName.text))
@@ -92,12 +96,12 @@ namespace Menu
                 cinemachineStartCamera.gameObject.SetActive(false);
                 cinemachinePlayCamera.gameObject.SetActive(true);
 
-                string stringWithoutSpaces = new string(playerName.text.Where(c => !char.IsWhiteSpace(c)).ToArray());
+                var stringWithoutSpaces = new string(playerName.text.Where(c => !char.IsWhiteSpace(c)).ToArray());
 
-                // Cut the string to 3 characters if it's longer than that
-                if (stringWithoutSpaces.Length > 3)
+                // Cut the string to 10 characters if it's longer than that
+                if (stringWithoutSpaces.Length > 10)
                 {
-                    stringWithoutSpaces = stringWithoutSpaces[..3].ToUpper();
+                    stringWithoutSpaces = stringWithoutSpaces[..10].ToUpper();
                 }
 
                 PlayerPrefs.SetString("PlayerName", stringWithoutSpaces);
@@ -108,18 +112,25 @@ namespace Menu
                 // Create a coroutine that will animate the hangar door glowing then load the game scene
                 StartCoroutine(HangarDoorGlowing());
             }
+            
+            // If the player name is invalid, set the player name input field to red
             else
             {
                 playerName.image.color = Color.red;
             }
         }
 
+        
+        /// <summary>
+        /// Animates the hangar door glowing then loads the game scene.
+        /// </summary>
+        /// <returns></returns>
         private IEnumerator HangarDoorGlowing()
         {
             // Increase the intensity of the glow
             for (float i = 2; i < 50; i += 2)
             {
-                glowingGlassMaterial.SetColor(EmissionColor, new Color(1f, 1f, 1f) * i);
+                glowingGlassMaterial.SetColor(EMISSION_COLOR, new Color(1f, 1f, 1f) * i);
                 yield return new WaitForSeconds(0.1f);
             }
 
@@ -127,9 +138,9 @@ namespace Menu
         }
 
 
-        /*
-         * Transitions from the main menu to the start menu
-         */
+        /// <summary>
+        /// Transitions from the main menu to the start menu
+        /// </summary>
         public void OpenStartMenu()
         {
             // When the player enters the start menu, switch the camera to the start camera
@@ -143,9 +154,9 @@ namespace Menu
         }
 
 
-        /*
-         * Transitions from the start menu to the main menu
-         */
+        /// <summary>
+        /// Transitions from the start menu to the main menu
+        /// </summary>
         public void CloseStartMenu()
         {
             // When the player exits the start menu, switch the camera to the orbit camera
@@ -159,9 +170,9 @@ namespace Menu
         }
 
 
-        /*
-         * Transition to the leaderboard menu from the main menu
-         */
+        /// <summary>
+        /// Transitions from the main menu to the leaderboard menu
+        /// </summary>
         public void OpenLeaderboard()
         {
             mainMenu.SetActive(false);
@@ -170,9 +181,10 @@ namespace Menu
             _leaderboardDatabase.GetComponent<LeaderboardDatabase>().DisplayLeaderboard();
         }
 
-        /*
-         * Transitions from the leaderboard menu to the main menu
-         */
+        
+        /// <summary>
+        /// Transitions from the leaderboard menu to the main menu
+        /// </summary>
         public void CloseLeaderboard()
         {
             leaderboardMenu.SetActive(false);
@@ -180,17 +192,19 @@ namespace Menu
         }
 
 
-        /*
-         * Exits the game
-         */
+        /// <summary>
+        /// Exits the game.
+        /// </summary>
         public void ExitGame()
         {
             Application.Quit();
         }
 
-        /*
-         * Called whenever the toggle button is clicked, toggles the FPS counter to the opposite of its current state
-         */
+        
+        /// <summary>
+        /// Toggles the FPS counter to its opposite state.
+        /// </summary>
+        /// <param name="value"> The value of the FPS toggle. </param>
         private static void ToggleFPS(bool value)
         {
             PlayerPrefs.SetInt("FPS", value ? 1 : 0);

@@ -17,9 +17,11 @@ namespace Menu
         public float Score;
 
 
-        /*
-         * Constructor for the ScoreEntry struct
-         */
+        /// <summary>
+        /// Constructor for the ScoreEntry struct.
+        /// </summary>
+        /// <param name="name"> The name of the player. </param>
+        /// <param name="score"> The player's score. </param>
         public ScoreEntry(string name, float score)
         {
             Name = name;
@@ -29,10 +31,13 @@ namespace Menu
 
 
     /// <summary>
-    /// This class is responsible for storing the leaderboard data using PlayerPrefs.
+    /// This class is responsible for storing the leaderboard data using PlayerPrefs. It also displays the leaderboard
+    /// in the leaderboard menu. It utilizes a singleton design pattern to ensure that there is only one instance of the
+    /// leaderboard database in the scene, and that it is not destroyed when a new scene is loaded.
     /// </summary>
     public class LeaderboardDatabase : MonoBehaviour
     {
+        // The singleton instance of the leaderboard database
         public static LeaderboardDatabase Instance { get; private set; }
 
         // Reference to the leaderboard entry prefab
@@ -54,9 +59,9 @@ namespace Menu
         private const float Infinity = Mathf.Infinity;
 
 
-        /*
-         * Ensures that the leaderboard database is not destroyed when a new scene is loaded
-         */
+        /// <summary>
+        /// Enforces the Singleton design pattern when the game starts.
+        /// </summary>
         private void Awake()
         {
             if (Instance == null)
@@ -71,14 +76,14 @@ namespace Menu
         }
 
 
-        /*
-         * Called when the game starts, provides initial setup for the leaderboard
-         */
+        /// <summary>
+        /// When the game starts, initialize the leaderboard entries list and load the leaderboard data from PlayerPrefs.
+        /// </summary>
         private void Start()
         {
             _leaderboardEntries = new List<GameObject>();
 
-            for (int i = 0; i < EntryCount; i++)
+            for (var i = 0; i < EntryCount; i++)
             {
                 _leaderboardEntries.Add(null);
             }
@@ -88,12 +93,12 @@ namespace Menu
         }
 
 
-        /*
-         * Initially loads the leaderboard data from PlayerPrefs
-         */
+        /// <summary>
+        /// Loads the leaderboard data from PlayerPrefs.
+        /// </summary>
         private void LoadScores()
         {
-            for (int i = 0; i < EntryCount; ++i)
+            for (var i = 0; i < EntryCount; ++i)
             {
                 ScoreEntry entry;
                 entry.Name = PlayerPrefs.GetString("[" + i + "].name", "");
@@ -104,40 +109,41 @@ namespace Menu
             SortScores();
         }
 
-        
-        /*
-         * Sorts the scores in descending order
-         */
+
+        /// <summary>
+        /// Sorts the leaderboard entries by score in descending order.
+        /// </summary>
         private void SortScores()
         {
             _scores.Sort((a, b) => b.Score.CompareTo(a.Score));
         }
 
 
-        /*
-         * Saves the leaderboard data to PlayerPrefs
-         */
+        /// <summary>
+        /// Saves the leaderboard data to PlayerPrefs.
+        /// </summary>
         private void SaveScores()
         {
-            for (int i = 0; i < EntryCount; ++i)
+            for (var i = 0; i < EntryCount; ++i)
             {
-                ScoreEntry entry = _scores[i];
+                var entry = _scores[i];
                 PlayerPrefs.SetString("[" + i + "].name", entry.Name);
                 PlayerPrefs.SetFloat("[" + i + "].score", entry.Score);
             }
         }
-        
 
-        /*
-         * Displays the leaderboard in the leaderboard menu
-         */
+
+        /// <summary>
+        /// Displays the leaderboard in the leaderboard menu.
+        /// </summary>
         public void DisplayLeaderboard()
         {
             _leaderboardMenu = GameObject.Find("/MenuCanvas/LeaderboardMenu");
 
             var parentPosition = _leaderboardMenu.transform.position;
 
-            for (int i = 0; i < EntryCount; i++)
+            // Destroy all the leaderboard entries from the previous time the leaderboard was opened
+            for (var i = 0; i < EntryCount; i++)
             {
                 if (_leaderboardEntries[i] != null)
                 {
@@ -146,6 +152,7 @@ namespace Menu
 
                 var entry = _scores[i];
 
+                // Create a new leaderboard entry and set its name and score and add it to the scene
                 var entryObject = Instantiate(leaderboardEntry, new Vector3(
                         parentPosition.x,
                         parentPosition.y - (i * 50),
@@ -155,6 +162,7 @@ namespace Menu
                 entryObject.transform.Find("Rank").GetComponent<TMPro.TextMeshProUGUI>().text = (i + 1).ToString();
 
 
+                // If the score is not infinity, display the name and score
                 if (!float.IsPositiveInfinity(entry.Score))
                 {
                     entryObject.transform.Find("Name").GetComponent<TMPro.TextMeshProUGUI>().text = entry.Name;
@@ -167,15 +175,16 @@ namespace Menu
                     entryObject.transform.Find("Time").GetComponent<TMPro.TextMeshProUGUI>().text = "";
                 }
 
-
                 _leaderboardEntries[i] = entryObject;
             }
         }
 
 
-        /*
-         * Creates a new leaderboard entry and sets its name and score
-         */
+        /// <summary>
+        /// Creates a new leaderboard entry with the given name and score and adds it to the leaderboard.
+        /// </summary>
+        /// <param name="playerName"> The name of the player. </param>
+        /// <param name="playerTime"> The player's score. </param>
         public void RecordScore(string playerName, float playerTime)
         {
             _scores.Add(new ScoreEntry(playerName, playerTime));
@@ -183,6 +192,5 @@ namespace Menu
             _scores.RemoveAt(_scores.Count - 1);
             SaveScores();
         }
-    
     }
 }

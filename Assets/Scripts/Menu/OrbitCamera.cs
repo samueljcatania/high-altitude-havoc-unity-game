@@ -8,15 +8,19 @@ namespace Menu
     public class OrbitCamera : MonoBehaviour
     {
         // The target to orbit around
-        public Transform target;
+        public Transform stealthBomber;
     
         // The speed at which the camera will orbit
-        public float orbitSpeed = 0.5f;
+        private const float OrbitSpeed = 1;
 
-        private void Update()
+        
+        /// <summary>
+        /// Orbits the camera around the stealth bomber.
+        /// </summary>
+        private void FixedUpdate()
         {
-            transform.LookAt(target);
-            transform.Translate(Vector3.right * (orbitSpeed * Time.fixedDeltaTime));
+            transform.LookAt(stealthBomber);
+            transform.Translate(Vector3.right * (OrbitSpeed * Time.fixedDeltaTime));
         }
     }
 }

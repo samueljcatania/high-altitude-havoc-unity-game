@@ -1,4 +1,3 @@
-using Unity.VisualScripting;
 using UnityEngine;
 
 namespace Menu
@@ -20,16 +19,13 @@ namespace Menu
         // The material to change the afterburner emitters to when they are throttled up
         public Material glowingMaterial;
 
-
-        /*
-         * Called when the game starts, gets all the afterburner emitters and particle systems in the stealth bomber
-         */
+        
+        /// <summary>
+        /// Called when the game starts, finds all the afterburner emitters and particle systems in the stealth bomber.
+        /// </summary>
         private void Start()
         {
-            // Get all the afterburner emitters in the children of the stealth bomber
             _afterburners = GameObject.FindGameObjectsWithTag($"Afterburner");
-
-            // Get all the particle systems in the children of the stealth bomber
             _engines = GetComponentsInChildren<ParticleSystem>();
 
             // Initially disable all the particle systems
@@ -40,12 +36,12 @@ namespace Menu
         }
 
 
-        /*
-         * Called when the players enters the start menu, enables the afterburner emitters and particle systems
-         */
+        /// <summary>
+        /// Called when the player enters the start menu, enables the afterburner emitters and particle systems.
+        /// </summary>
         public void StartEngines()
         {
-            // Change the material of the afterburner emitters to the afterburner material
+            // Change the material of the afterburner emitters to the glowing material
             foreach (var afterburner in _afterburners)
             {
                 afterburner.GetComponent<Renderer>().material = glowingMaterial;
@@ -59,9 +55,9 @@ namespace Menu
         }
 
 
-        /*
-         * Called when the player exits the start menu, disables the afterburner emitters and particle systems
-         */
+        /// <summary>
+        /// Called when the player exits the start menu, disables the afterburner emitters and particle systems.
+        /// </summary>
         public void StopEngines()
         {
             // Change the material of the afterburner emitters to the default material
